@@ -1,0 +1,165 @@
+﻿<navigation:Page
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+                 xmlns:ViewModel="clr-namespace:SLApp.ViewModel"
+                 xmlns:Model="clr-namespace:SLApp.Model"
+                 xmlns:helper="clr-namespace:SLApp.HelperClasses"
+                 xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" x:Class="SLApp.Views.Content"
+                 mc:Ignorable="d"
+                 d:DesignWidth="1024"
+                 d:DesignHeight="768"
+                 Title="Content Page"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top">
+    <navigation:Page.Resources>
+
+        <helper:BoolToVisibilityConverter x:Key="boolConv" />
+
+        <DataTemplate DataType="ViewModel:PersonViewModel">
+            <StackPanel DataContext="{Binding SelPerson}">
+                <Image Source="{Binding Picture}"
+                       MaxWidth="100" />
+                <TextBlock Text="{Binding Name}"
+                           FontWeight="Bold"
+                           FontSize="14"
+                           FontFamily="Verdana" />
+                <TextBlock Text="{Binding Birthday}"
+                           FontFamily="Verdana" />
+                <TextBlock Text="{Binding Bio}"
+                           FontFamily="Verdana"
+                           FontSize="9"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </DataTemplate>
+
+
+        <DataTemplate DataType="Model:Person">
+            <Border BorderBrush="Gray" BorderThickness="1" Margin="10" CornerRadius="5">
+            	<Border.Background>
+            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            			<GradientStop Color="White" Offset="0"/>
+            			<GradientStop Color="#7FFFFFFF" Offset="1"/>
+            		</LinearGradientBrush>
+            	</Border.Background>
+        		<Grid Width="350" Margin="5">        			
+        			<Grid.RowDefinitions>
+        				<RowDefinition Height="Auto"/>
+        				<RowDefinition Height="Auto"/>        				
+        			</Grid.RowDefinitions>
+            		<Border Background="White" VerticalAlignment="Top" d:LayoutOverrides="Width" HorizontalAlignment="Left" Margin="0,-15,0,0">
+            			<TextBlock TextWrapping="Wrap" Text="Person" Foreground="Gray" Height="16" Width="38" Margin="5,0"/>
+            		</Border>
+            		<TextBlock Text="{Binding Name}"
+            			FontWeight="Bold"
+            			FontSize="14"
+            			FontFamily="Verdana" Margin="10" d:LayoutOverrides="Height" HorizontalAlignment="Left" >
+            			<TextBlock.Effect>
+            				<DropShadowEffect BlurRadius="3" Color="#FF818181" ShadowDepth="2"/>
+            			</TextBlock.Effect>
+            		</TextBlock>
+            		<Grid Grid.Row="1" Visibility="{Binding IsSelected, Converter={StaticResource boolConv}, RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor}}">
+            			<Grid.ColumnDefinitions>
+            				<ColumnDefinition/>
+            				<ColumnDefinition/>
+            			</Grid.ColumnDefinitions>
+            			<Grid.RowDefinitions>
+            				<RowDefinition/>
+            				<RowDefinition/>
+            			</Grid.RowDefinitions>
+            			<Image Source="{Binding Picture}" d:LayoutOverrides="HorizontalAlignment" HorizontalAlignment="Left" VerticalAlignment="Top"
+							Height="200" />
+            			<Border HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Bottom" CornerRadius="3" >
+            				<Border.OpacityMask>
+            					<LinearGradientBrush EndPoint="0.945,0.901" StartPoint="0.014,0.068">
+            						<GradientStop Color="Black"/>
+            						<GradientStop Color="#CC000000" Offset="1"/>
+            					</LinearGradientBrush>
+            				</Border.OpacityMask>
+            				<Border.Background>
+            					<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            						<GradientStop Color="#FFECFF3D" Offset="0"/>
+            						<GradientStop Color="#FF869501" Offset="1"/>
+            					</LinearGradientBrush>
+            				</Border.Background>
+            				<TextBlock Text="{Binding Birthday, StringFormat=dd.MM.yyyy}" FontSize="16" Foreground="Black" Margin="5" >
+            					<TextBlock.Effect>
+            						<DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.8"/>
+            					</TextBlock.Effect>
+            				</TextBlock>
+            			</Border>
+            			<RichTextBlock VerticalAlignment="Top" OverflowContentTarget="{Binding ElementName=richTextBlockOverflow}" Height="200" IsTextSelectionEnabled="False" Grid.Column="1">
+            				<Paragraph><Run Text="{Binding Bio}"/></Paragraph>
+            			</RichTextBlock>
+            			<RichTextBlockOverflow x:Name="richTextBlockOverflow" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
+            		</Grid>
+            	</Grid>
+        	</Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="Model:Car">
+            <StackPanel>
+                <TextBlock Text="{Binding Type}"
+                           FontFamily="Verdana" />
+                <TextBlock Text="{Binding Model}"
+                           FontFamily="Verdana" />
+                <Image Source="{Binding Image}"
+                       MaxHeight="100"
+                       Visibility="{Binding IsSelected, Converter={StaticResource boolConv}, RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor}}" />
+                <TextBlock Text="{Binding Year}"
+                           FontWeight="Bold"
+                           FontSize="14"
+                           FontFamily="Verdana" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="Model:House">
+            <StackPanel>
+                <TextBlock Text="{Binding Address}"
+                           FontFamily="Verdana" />
+                <TextBlock Text="{Binding Space}"
+                           FontFamily="Verdana" />
+                <CheckBox Content="Has pool:"
+                          IsChecked="{Binding HasPool}" />
+                <Image Source="{Binding Map}"
+                       MaxHeight="200"
+                       Visibility="{Binding IsSelected, Converter={StaticResource boolConv}, RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor}}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </navigation:Page.Resources>
+
+
+    <Grid x:Name="LayoutRoot"
+          d:DataContext="{Binding Source={StaticResource Locator}}"
+          HorizontalAlignment="Left">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left"
+                   Margin="10"
+                   x:Name="textBlock1"
+                   Text="Content"
+                   VerticalAlignment="Top"
+                   FontFamily="Verdana"
+                   FontSize="36" />
+        <toolkit:TransitioningContentControl
+        	DataContext="{Binding CoViewModel}"
+        	Grid.Row="1"
+        	Content="{Binding SelContent}" Width="400" Transition="DownTransition"/>
+        <ListBox DataContext="{Binding CoViewModel}"
+                 ItemsSource="{Binding Contents}"
+                 SelectedItem="{Binding SelContent, Mode=TwoWay}"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top" />
+    </Grid>
+</navigation:Page>

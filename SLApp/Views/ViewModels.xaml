@@ -1,0 +1,85 @@
+﻿<sdk:Page	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ViewModel="clr-namespace:SLApp.ViewModel"
+	xmlns:Model="clr-namespace:SLApp.Model"
+	mc:Ignorable="d"
+	xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"	x:Class="SLApp.ViewModels" 
+	Title="ViewModels Page"
+	d:DesignWidth="800" d:DesignHeight="600">
+	
+	<sdk:Page.Resources>        
+
+        <DataTemplate DataType="ViewModel:PersonViewModel">
+            <Grid DataContext="{Binding SelPerson}">
+            	<Grid.RowDefinitions>
+            		<RowDefinition Height="Auto"/>
+            		<RowDefinition Height="Auto"/>
+            	</Grid.RowDefinitions>
+            	<Grid.ColumnDefinitions>
+            		<ColumnDefinition Width="Auto"/>
+            		<ColumnDefinition/>
+            	</Grid.ColumnDefinitions>
+        		<Image Source="{Binding Picture}"
+        			MaxWidth="100" Margin="5" />
+        		<TextBlock Text="{Binding Name}"
+        			FontWeight="Bold"
+        			FontSize="14"
+        			FontFamily="Verdana" Grid.Column="1" Margin="5,5,5,25" VerticalAlignment="Bottom" />
+        		<TextBlock Text="{Binding Birthday}"
+        			FontFamily="Verdana" Grid.Column="1" Margin="5" VerticalAlignment="Bottom" />
+        		<TextBlock Text="{Binding Bio}"
+        			FontFamily="Verdana"
+        			FontSize="9"
+        			TextWrapping="Wrap" Grid.ColumnSpan="2" Grid.Row="1" Margin="5" />
+        	</Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="ViewModel:CarViewModel">
+            <Grid DataContext="{Binding SelCar}">
+        		<Image Source="{Binding Image}" Margin="5" />
+        		<TextBlock
+        			Text="{Binding Type}"
+        			FontWeight="Bold"
+        			FontSize="21.333"
+        			FontFamily="Verdana" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5" />
+        		<TextBlock
+        			Text="{Binding Model}"
+        			FontFamily="Verdana" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" />
+        		<TextBlock
+        			Text="{Binding Year}"
+        			FontFamily="Verdana" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,10,6" FontSize="29.333" FontWeight="ExtraBold" Foreground="#FFC7C02D" >
+        			<TextBlock.Effect>
+        				<DropShadowEffect BlurRadius="2" ShadowDepth="2"/>
+        			</TextBlock.Effect>
+        		</TextBlock>                
+        	</Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="Model:House">
+            <StackPanel>
+                <TextBlock Text="{Binding Address}"
+                           FontFamily="Verdana" />
+                <TextBlock Text="{Binding Space}"
+                           FontFamily="Verdana" />
+                <CheckBox Content="Has pool:"
+                          IsChecked="{Binding HasPool}" />
+                <Image Source="{Binding Map}"
+                       MaxHeight="200" />
+            </StackPanel>
+        </DataTemplate>
+
+    </sdk:Page.Resources>
+	
+	<Grid x:Name="LayoutRoot" d:DataContext="{Binding Source={StaticResource Locator}}" >
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+		<ContentControl DataContext="{Binding PViewModel}" Content="{Binding}" Width="300" VerticalAlignment="Top" />
+		<ContentControl DataContext="{Binding CViewModel}" Content="{Binding}" Grid.Column="1" Width="200" />
+		<ContentControl DataContext="{Binding HViewModel}" Content="{Binding SelHouse}" Grid.Column="2" />
+	</Grid>
+</sdk:Page>
