@@ -29,7 +29,7 @@ namespace SLApp.ViewModel
             _serviceAgent.GetContents(c => Contents = c);
 
             if (IsInDesignMode)
-                SelContent = _contents[1];
+                SelContent = _contents[2];
         }
 
         private List<IContent> _contents;
